@@ -328,5 +328,6 @@ This is an educational project developed as part of a capstone assignment.
 This File Explorer application successfully implements all required features across the 5-day development timeline, providing a comprehensive file management solution for Linux systems with an intuitive console-based interface.
 
 **Happy Exploring! 🚀**
-#   F i l e - E x p l o r e r - A p p l i c a t i o n  
+#   F i l e - E x p l o r e r - A p p l i c a t i o n 
+ 
  
