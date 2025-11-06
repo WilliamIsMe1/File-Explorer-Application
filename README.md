@@ -121,14 +121,14 @@ Other:
 ### Example Usage Scenarios
 
 #### 1. Navigate and List Files
-```
+```bash
 Choice: 3
 Enter directory path: /home/user/Documents
 Choice: 2 (for detailed listing)
 ```
 
 #### 2. Create and Manage Files
-```
+```bash
 Choice: 5
 Enter filename: test.txt
 
@@ -137,14 +137,14 @@ Enter directory name: my_folder
 ```
 
 #### 3. Search for Files
-```
+```bash
 Choice: 10
 Enter search term: config
 # Searches recursively for all files containing "config" in their name
 ```
 
 #### 4. Change Permissions
-```
+```bash
 Choice: 12
 Enter filename: script.sh
 Enter permissions (octal): 755
@@ -152,7 +152,7 @@ Enter permissions (octal): 755
 ```
 
 #### 5. View File Details
-```
+```bash
 Choice: 11
 Enter filename: document.txt
 # Shows permissions, owner, group, size, and modification time
@@ -292,11 +292,8 @@ This project demonstrates:
 ## ⚠️ Important Notes
 
 1. **Root Privileges:** Some operations (like changing ownership or accessing system directories) may require root privileges. Run with `sudo` when necessary.
-
 2. **Empty Directories Only:** The delete operation only works on empty directories. To delete non-empty directories, implement recursive deletion (use with caution).
-
 3. **File Overwriting:** Copy operations will overwrite existing files without warning. Add checks if needed.
-
 4. **Symbolic Links:** The application handles symbolic links but displays them as regular files in simple mode.
 
 ## 🔄 Future Enhancements
@@ -328,5 +325,3 @@ This is an educational project developed as part of a capstone assignment.
 This File Explorer application successfully implements all required features across the 5-day development timeline, providing a comprehensive file management solution for Linux systems with an intuitive console-based interface.
 
 **Happy Exploring! 🚀**
-#   F i l e - E x p l o r e r - A p p l i c a t i o n  
- 
