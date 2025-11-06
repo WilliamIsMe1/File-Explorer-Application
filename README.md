@@ -1,663 +1,4 @@
-# Linux File Explorer Application<<<<<<< HEAD
-
 # Linux File Explorer Application
-
-A comprehensive console-based file explorer application written in C++ for Linux operating systems. This application provides a complete file management system with navigation, manipulation, search, and permission management capabilities.
-
-A comprehensive console-based file explorer application written in C++ for Linux operating systems. This application provides a complete file management system with navigation, manipulation, search, and permission management capabilities.
-
-## 📋 Project Overview
-
-## 📋 Project Overview
-
-**Assignment:** Capstone Project - File Explorer Application  
-
-**Language:** C++  **Assignment:** Capstone Project - File Explorer Application  
-
-**Platform:** Linux OS  **Language:** C++  
-
-**Development Time:** 5 Days**Platform:** Linux OS  
-
-**Development Time:** 5 Days
-
-## 🎯 Features
-
-## 🎯 Features
-
-### Day 1: Basic Operations
-
-- ✅ List files in current directory (simple and detailed views)### Day 1: Basic Operations
-
-- ✅ Display file information with color coding- ✅ List files in current directory (simple and detailed views)
-
-- ✅ Show file sizes, modification times, and types- ✅ Display file information with color coding
-
-- ✅ Show file sizes, modification times, and types
-
-### Day 2: Navigation
-
-- ✅ Change directories (absolute and relative paths)### Day 2: Navigation
-
-- ✅ Navigate to parent directory- ✅ Change directories (absolute and relative paths)
-
-- ✅ Display current working directory- ✅ Navigate to parent directory
-
-- ✅ Real-time directory tracking- ✅ Display current working directory
-
-- ✅ Real-time directory tracking
-
-### Day 3: File Manipulation
-
-- ✅ Create new files### Day 3: File Manipulation
-
-- ✅ Create new directories- ✅ Create new files
-
-- ✅ Delete files and directories- ✅ Create new directories
-
-- ✅ Copy files- ✅ Delete files and directories
-
-- ✅ Move/Rename files- ✅ Copy files
-
-- ✅ Move/Rename files
-
-### Day 4: Search Functionality
-
-- ✅ Recursive file search### Day 4: Search Functionality
-
-- ✅ Case-insensitive filename matching- ✅ Recursive file search
-
-- ✅ Search in current directory or entire system- ✅ Case-insensitive filename matching
-
-- ✅ Display search results with full paths- ✅ Search in current directory or entire system
-
-- ✅ Display search results with full paths
-
-### Day 5: Permission Management
-
-- ✅ View file permissions (symbolic and octal)### Day 5: Permission Management
-
-- ✅ Change file permissions (chmod)- ✅ View file permissions (symbolic and octal)
-
-- ✅ Change file ownership (chown)- ✅ Change file permissions (chmod)
-
-- ✅ Display owner and group information- ✅ Change file ownership (chown)
-
-- ✅ Show detailed file statistics- ✅ Display owner and group information
-
-- ✅ Show detailed file statistics
-
-## 🛠️ Prerequisites
-
-## 🛠️ Prerequisites
-
-- Linux operating system (Ubuntu, Debian, Fedora, etc.)
-
-- G++ compiler (version 4.8 or higher)- Linux operating system (Ubuntu, Debian, Fedora, etc.)
-
-- Make utility- G++ compiler (version 4.8 or higher)
-
-- Standard C++ libraries- Make utility
-
-- Root/sudo access (optional, for some permission operations)- Standard C++ libraries
-
-- Root/sudo access (optional, for some permission operations)
-
-## 📦 Installation
-
-## 📦 Installation
-
-### 1. Clone or Download the Project
-
-### 1. Clone or Download the Project
-
-```bash
-
-cd /path/to/project```bash
-
-```cd /path/to/project
-
-```
-
-### 2. Compile the Application
-
-### 2. Compile the Application
-
-**Using Make:**
-
-```bash**Using Make:**
-
-make```bash
-
-```make
-
-```
-
-**Manual Compilation:**
-
-```bash**Manual Compilation:**
-
-g++ -Wall -Wextra -std=c++11 -O2 -o file_explorer file_explorer.cpp```bash
-
-```g++ -Wall -Wextra -std=c++11 -O2 -o file_explorer file_explorer.cpp
-
-```
-
-### 3. Run the Application
-
-### 3. Run the Application
-
-```bash
-
-./file_explorer```bash
-
-```./file_explorer
-
-```
-
-### 4. Optional: System-wide Installation
-
-### 4. Optional: System-wide Installation
-
-```bash
-
-make install```bash
-
-```make install
-
-```
-
-This installs the application to `/usr/local/bin/` so you can run it from anywhere:
-
-```bashThis installs the application to `/usr/local/bin/` so you can run it from anywhere:
-
-file_explorer```bash
-
-```file_explorer
-
-```
-
-## 🎮 Usage Guide
-
-## 🎮 Usage Guide
-
-### Main Menu Options
-
-### Main Menu Options
-
-```
-
-Navigation & Listing:```
-
-  1.  List files (simple)           - Basic file listingNavigation & Listing:
-
-  2.  List files (detailed)         - Detailed view with permissions, size, etc.  1.  List files (simple)           - Basic file listing
-
-  3.  Change directory              - Navigate to a specific directory  2.  List files (detailed)         - Detailed view with permissions, size, etc.
-
-  4.  Go to parent directory        - Move up one directory level  3.  Change directory              - Navigate to a specific directory
-
-  4.  Go to parent directory        - Move up one directory level
-
-File Operations:
-
-  5.  Create file                   - Create a new empty fileFile Operations:
-
-  6.  Create directory              - Create a new directory  5.  Create file                   - Create a new empty file
-
-  7.  Delete file/directory         - Remove a file or empty directory  6.  Create directory              - Create a new directory
-
-  8.  Copy file                     - Copy a file to another location  7.  Delete file/directory         - Remove a file or empty directory
-
-  9.  Move/Rename file              - Move or rename a file  8.  Copy file                     - Copy a file to another location
-
-  9.  Move/Rename file              - Move or rename a file
-
-Search:
-
-  10. Search files                  - Recursively search for files by nameSearch:
-
-  10. Search files                  - Recursively search for files by name
-
-Permissions Management:
-
-  11. View file permissions         - Display detailed permission informationPermissions Management:
-
-  12. Change permissions (chmod)    - Modify file permissions  11. View file permissions         - Display detailed permission information
-
-  13. Change owner/group (chown)    - Change file owner/group  12. Change permissions (chmod)    - Modify file permissions
-
-  13. Change owner/group (chown)    - Change file owner/group
-
-Other:
-
-  14. Display current path          - Show the current working directoryOther:
-
-  0.  Exit                          - Exit the application  14. Display current path          - Show the current working directory
-
-```  0.  Exit                          - Exit the application
-
-```
-
-### Example Usage Scenarios
-
-### Example Usage Scenarios
-
-#### 1. Navigate and List Files
-
-```bash#### 1. Navigate and List Files
-
-Choice: 3```bash
-
-Enter directory path: /home/user/DocumentsChoice: 3
-
-Choice: 2 (for detailed listing)Enter directory path: /home/user/Documents
-
-```Choice: 2 (for detailed listing)
-
-```
-
-#### 2. Create and Manage Files
-
-```bash#### 2. Create and Manage Files
-
-Choice: 5```bash
-
-Enter filename: test.txtChoice: 5
-
-Enter filename: test.txt
-
-Choice: 6
-
-Enter directory name: my_folderChoice: 6
-
-```Enter directory name: my_folder
-
-```
-
-#### 3. Search for Files
-
-```bash#### 3. Search for Files
-
-Choice: 10```bash
-
-Enter search term: configChoice: 10
-
-# Searches recursively for all files containing "config" in their nameEnter search term: config
-
-```# Searches recursively for all files containing "config" in their name
-
-```
-
-#### 4. Change Permissions
-
-```bash#### 4. Change Permissions
-
-Choice: 12```bash
-
-Enter filename: script.shChoice: 12
-
-Enter permissions (octal): 755Enter filename: script.sh
-
-# Makes the file executable (rwxr-xr-x)Enter permissions (octal): 755
-
-```# Makes the file executable (rwxr-xr-x)
-
-```
-
-#### 5. View File Details
-
-```bash#### 5. View File Details
-
-Choice: 11```bash
-
-Enter filename: document.txtChoice: 11
-
-# Shows permissions, owner, group, size, and modification timeEnter filename: document.txt
-
-```# Shows permissions, owner, group, size, and modification time
-
-```
-
-## 🎨 Color Coding
-
-## 🎨 Color Coding
-
-The application uses color coding for better visual organization:
-
-The application uses color coding for better visual organization:
-
-- **Blue (Bold)** - Directories
-
-- **Green** - Executable files- **Blue (Bold)** - Directories
-
-- **White** - Regular files- **Green** - Executable files
-
-- **Red** - Error messages- **White** - Regular files
-
-- **Green** - Success messages- **Red** - Error messages
-
-- **Yellow** - Warnings and menu headers- **Green** - Success messages
-
-- **Cyan** - Information and current path- **Yellow** - Warnings and menu headers
-
-- **Cyan** - Information and current path
-
-## 📝 Technical Details
-
-## 📝 Technical Details
-
-### System Calls Used
-
-- `opendir()`, `readdir()`, `closedir()` - Directory operations### System Calls Used
-
-- `stat()` - File information retrieval- `opendir()`, `readdir()`, `closedir()` - Directory operations
-
-- `mkdir()` - Directory creation- `stat()` - File information retrieval
-
-- `rmdir()`, `unlink()` - Deletion operations- `mkdir()` - Directory creation
-
-- `rename()` - Move/rename operations- `rmdir()`, `unlink()` - Deletion operations
-
-- `chmod()` - Permission modification- `rename()` - Move/rename operations
-
-- `chown()` - Ownership modification- `chmod()` - Permission modification
-
-- `getcwd()`, `chdir()` - Directory navigation- `chown()` - Ownership modification
-
-- `getcwd()`, `chdir()` - Directory navigation
-
-### File Permission Format
-
-Permissions are displayed in both symbolic and octal formats:### File Permission Format
-
-- **Symbolic:** `drwxr-xr-x` (d=directory, r=read, w=write, x=execute)Permissions are displayed in both symbolic and octal formats:
-
-- **Octal:** `755` (7=rwx, 5=r-x, 5=r-x)- **Symbolic:** `drwxr-xr-x` (d=directory, r=read, w=write, x=execute)
-
-- **Octal:** `755` (7=rwx, 5=r-x, 5=r-x)
-
-### Permission Breakdown
-
-```### Permission Breakdown
-
-Owner  Group  Others```
-
-rwx    r-x    r-xOwner  Group  Others
-
-421    421    421rwx    r-x    r-x
-
- 7      5      5421    421    421
-
-``` 7      5      5
-
-```
-
-## 🔐 Permissions Required
-
-## 🔐 Permissions Required
-
-### Standard Operations
-
-- Reading, listing, searching: User read permissions### Standard Operations
-
-- Creating, copying files: User write permissions- Reading, listing, searching: User read permissions
-
-- Executing, navigating: User execute permissions- Creating, copying files: User write permissions
-
-- Executing, navigating: User execute permissions
-
-### Administrative Operations (require sudo)
-
-- Changing ownership with `chown`### Administrative Operations (require sudo)
-
-- Modifying permissions on system files- Changing ownership with `chown`
-
-- Accessing restricted directories- Modifying permissions on system files
-
-- Accessing restricted directories
-
-## 🐛 Error Handling
-
-## 🐛 Error Handling
-
-The application includes comprehensive error handling for:
-
-- Invalid directory pathsThe application includes comprehensive error handling for:
-
-- Permission denied errors- Invalid directory paths
-
-- File not found errors- Permission denied errors
-
-- Invalid input validation- File not found errors
-
-- Directory deletion of non-empty directories- Invalid input validation
-
-- Directory deletion of non-empty directories
-
-## 🚀 Advanced Features
-
-## 🚀 Advanced Features
-
-### Recursive Search
-
-The search function recursively traverses all subdirectories to find matching files.### Recursive Search
-
-The search function recursively traverses all subdirectories to find matching files.
-
-### Smart File Sizing
-
-File sizes are automatically formatted with appropriate units (B, KB, MB, GB, TB).### Smart File Sizing
-
-File sizes are automatically formatted with appropriate units (B, KB, MB, GB, TB).
-
-### Safety Confirmations
-
-Destructive operations (like deletion) require user confirmation to prevent accidental data loss.### Safety Confirmations
-
-Destructive operations (like deletion) require user confirmation to prevent accidental data loss.
-
-### Cross-Platform Path Handling
-
-Supports both absolute (`/home/user/file`) and relative (`../folder/file`) paths.### Cross-Platform Path Handling
-
-Supports both absolute (`/home/user/file`) and relative (`../folder/file`) paths.
-
-## 📊 Project Structure
-
-## 📊 Project Structure
-
-```
-
-File Explorer/```
-
-├── file_explorer.cpp    # Main application source codeFile Explorer/
-
-├── Makefile            # Build configuration├── file_explorer.cpp    # Main application source code
-
-└── README.md           # This file├── Makefile            # Build configuration
-
-```└── README.md           # This file
-
-```
-
-## 🔧 Compilation Options
-
-## 🔧 Compilation Options
-
-### Debug Build
-
-```bash### Debug Build
-
-g++ -Wall -Wextra -std=c++11 -g -o file_explorer_debug file_explorer.cpp```bash
-
-```g++ -Wall -Wextra -std=c++11 -g -o file_explorer_debug file_explorer.cpp
-
-```
-
-### Optimized Release Build
-
-```bash### Optimized Release Build
-
-g++ -Wall -Wextra -std=c++11 -O3 -o file_explorer file_explorer.cpp```bash
-
-```g++ -Wall -Wextra -std=c++11 -O3 -o file_explorer file_explorer.cpp
-
-```
-
-## 📚 Learning Outcomes
-
-## 📚 Learning Outcomes
-
-This project demonstrates:
-
-1. **Linux System Programming** - Direct interaction with OS through system callsThis project demonstrates:
-
-2. **File System Operations** - Understanding of file system structure and operations1. **Linux System Programming** - Direct interaction with OS through system calls
-
-3. **Process Management** - Working with permissions, ownership, and file attributes2. **File System Operations** - Understanding of file system structure and operations
-
-4. **C++ Programming** - Object-oriented design, STL usage, and modern C++ features3. **Process Management** - Working with permissions, ownership, and file attributes
-
-5. **User Interface Design** - Creating intuitive console-based interfaces4. **C++ Programming** - Object-oriented design, STL usage, and modern C++ features
-
-6. **Error Handling** - Robust error checking and user feedback5. **User Interface Design** - Creating intuitive console-based interfaces
-
-6. **Error Handling** - Robust error checking and user feedback
-
-## 🤝 Day-wise Implementation Guide
-
-## 🤝 Day-wise Implementation Guide
-
-### Day 1: Foundation (✅ Complete)
-
-- Application architecture design### Day 1: Foundation (✅ Complete)
-
-- Basic file listing functionality- Application architecture design
-
-- Color-coded output system- Basic file listing functionality
-
-- Color-coded output system
-
-### Day 2: Navigation (✅ Complete)
-
-- Directory navigation implementation### Day 2: Navigation (✅ Complete)
-
-- Path handling (absolute/relative)- Directory navigation implementation
-
-- Current directory tracking- Path handling (absolute/relative)
-
-- Current directory tracking
-
-### Day 3: Manipulation (✅ Complete)
-
-- File creation and deletion### Day 3: Manipulation (✅ Complete)
-
-- Directory operations- File creation and deletion
-
-- Copy and move functionality- Directory operations
-
-- Copy and move functionality
-
-### Day 4: Search (✅ Complete)
-
-- Recursive search algorithm### Day 4: Search (✅ Complete)
-
-- Pattern matching implementation- Recursive search algorithm
-
-- Result display formatting- Pattern matching implementation
-
-- Result display formatting
-
-### Day 5: Permissions (✅ Complete)
-
-- Permission viewing system### Day 5: Permissions (✅ Complete)
-
-- chmod implementation- Permission viewing system
-
-- chown implementation- chmod implementation
-
-- User/group information display- chown implementation
-
-- User/group information display
-
-## ⚠️ Important Notes
-
-## ⚠️ Important Notes
-
-1. **Root Privileges:** Some operations (like changing ownership or accessing system directories) may require root privileges. Run with `sudo` when necessary.
-
-1. **Root Privileges:** Some operations (like changing ownership or accessing system directories) may require root privileges. Run with `sudo` when necessary.
-
-2. **Empty Directories Only:** The delete operation only works on empty directories. To delete non-empty directories, implement recursive deletion (use with caution).2. **Empty Directories Only:** The delete operation only works on empty directories. To delete non-empty directories, implement recursive deletion (use with caution).
-
-3. **File Overwriting:** Copy operations will overwrite existing files without warning. Add checks if needed.
-
-3. **File Overwriting:** Copy operations will overwrite existing files without warning. Add checks if needed.4. **Symbolic Links:** The application handles symbolic links but displays them as regular files in simple mode.
-
-
-
-4. **Symbolic Links:** The application handles symbolic links but displays them as regular files in simple mode.## 🔄 Future Enhancements
-
-
-
-## 🔄 Future EnhancementsPotential improvements:
-
-- Recursive directory deletion
-
-Potential improvements:- File preview/viewing
-
-- Recursive directory deletion- Archive operations (zip/tar)
-
-- File preview/viewing- File filtering and sorting options
-
-- Archive operations (zip/tar)- Bookmark favorite directories
-
-- File filtering and sorting options- Command history
-
-- Bookmark favorite directories- Batch operations
-
-- Command history- File comparison tool
-
-- Batch operations
-
-- File comparison tool## 📄 License
-
-
-
-## 📄 LicenseThis is an educational project developed as part of a capstone assignment.
-
-
-
-This is an educational project developed as part of a capstone assignment.## 👨‍💻 Development Information
-
-
-
-## 👨‍💻 Development Information**Development Period:** 5 Days  
-
-**Testing Platform:** Linux (Ubuntu/Debian compatible)  
-
-**Development Period:** 5 Days  **Compiler:** G++ with C++11 standard  
-
-**Testing Platform:** Linux (Ubuntu/Debian compatible)  
-
-**Compiler:** G++ with C++11 standard  ---
-
-
-
----## 🎓 Conclusion
-
-
-
-## 🎓 ConclusionThis File Explorer application successfully implements all required features across the 5-day development timeline, providing a comprehensive file management solution for Linux systems with an intuitive console-based interface.
-
-
-
-This File Explorer application successfully implements all required features across the 5-day development timeline, providing a comprehensive file management solution for Linux systems with an intuitive console-based interface.**Happy Exploring! 🚀**
-
-=======
-
-**Happy Exploring! 🚀**# Linux File Explorer Application
-
 
 A comprehensive console-based file explorer application written in C++ for Linux operating systems. This application provides a complete file management system with navigation, manipulation, search, and permission management capabilities.
 
@@ -684,9 +25,10 @@ A comprehensive console-based file explorer application written in C++ for Linux
 ### Day 3: File Manipulation
 - ✅ Create new files
 - ✅ Create new directories
-- ✅ Delete files and directories
-- ✅ Copy files
-- ✅ Move/Rename files
+- ✅ Delete files and directories (including recursive deletion)
+- ✅ Copy files and directories (with full recursive support)
+- ✅ Move files and directories (cross-filesystem support)
+- ✅ Rename files and directories (separate from move operation)
 
 ### Day 4: Search Functionality
 - ✅ Recursive file search
@@ -750,79 +92,223 @@ file_explorer
 
 ### Main Menu Options
 
+The application displays the **current directory** prominently below the title at all times for easy navigation tracking.
+
 ```
-Navigation & Listing:
-  1.  List files (simple)           - Basic file listing
-  2.  List files (detailed)         - Detailed view with permissions, size, etc.
-  3.  Change directory              - Navigate to a specific directory
-  4.  Go to parent directory        - Move up one directory level
+📂 Navigation & Listing:
+  1.  📋 List files (simple)           - Basic file listing with color coding
+  2.  📊 List files (detailed)         - Detailed view with permissions, owner, size, dates
+  3.  🔄 Change directory              - Navigate to any directory (absolute or relative path)
+  4.  ⬆️  Go to parent directory        - Move up one directory level
 
-File Operations:
-  5.  Create file                   - Create a new empty file
-  6.  Create directory              - Create a new directory
-  7.  Delete file/directory         - Remove a file or empty directory
-  8.  Copy file                     - Copy a file to another location
-  9.  Move/Rename file              - Move or rename a file
+📁 File Operations:
+  5.  ➕ Create file                   - Create a new empty file
+  6.  📁 Create directory              - Create a new directory
+  7.  🗑️  Delete file/directory         - Remove files or directories (recursive option)
+  8.  📄 Copy file/directory           - Copy files or entire directories recursively
+  9.  📦 Move file/directory           - Move files/directories to different locations
+  10. ✏️  Rename file/directory         - Rename items in the current directory
 
-Search:
-  10. Search files                  - Recursively search for files by name
+🔍 Search:
+  11. 🔎 Search files                  - Recursively search for files by name
 
-Permissions Management:
-  11. View file permissions         - Display detailed permission information
-  12. Change permissions (chmod)    - Modify file permissions
-  13. Change owner/group (chown)    - Change file owner/group
+🔐 Permissions Management:
+  12. 👁️  View file permissions         - Display detailed permission information
+  13. 🔧 Change permissions (chmod)    - Modify file permissions using octal notation
+  14. 👤 Change owner/group (chown)    - Change file owner and group
 
-Other:
-  14. Display current path          - Show the current working directory
-  0.  Exit                          - Exit the application
+⚙️  Other:
+  15. 📍 Display current path          - Show the current working directory
+  0.  ❌ Exit                          - Exit the application
 ```
 
 ### Example Usage Scenarios
 
-#### 1. Navigate and List Files
-```
-Choice: 3
-Enter directory path: /home/user/Documents
-Choice: 2 (for detailed listing)
+#### 1. 📋 List Files (Simple)
+```bash
+📂 Navigation & Listing:
+  1.  📋 List files (simple)
+Choose an option: 1
+
+Files in current directory:
+📄 document.txt
+📁 projects/
+📄 readme.md
+📁 images/
 ```
 
-#### 2. Create and Manage Files
-```
-Choice: 5
-Enter filename: test.txt
+#### 2. 📊 List Files (Detailed)
+```bash
+Choose an option: 2
 
-Choice: 6
-Enter directory name: my_folder
-```
-
-#### 3. Search for Files
-```
-Choice: 10
-Enter search term: config
-# Searches recursively for all files containing "config" in their name
+Detailed file listing:
+-rw-r--r--  1 user group    1024 Nov 15 10:30 📄 document.txt
+drwxr-xr-x  2 user group    4096 Nov 15 09:15 📁 projects/
+-rw-r--r--  1 user group    2048 Nov 14 16:45 📄 readme.md
+drwxr-xr-x  3 user group    4096 Nov 13 14:20 📁 images/
 ```
 
-#### 4. Change Permissions
+#### 3. 🔄 Change Directory
+```bash
+Choose an option: 3
+Enter directory path: /home/user/documents
+
+✅ Successfully changed to: /home/user/documents
+Current Directory: /home/user/documents
 ```
-Choice: 12
+
+#### 4. ⬆️ Go to Parent Directory
+```bash
+Choose an option: 4
+
+✅ Successfully moved to parent directory
+Current Directory: /home/user
+```
+
+#### 5. ➕ Create File
+```bash
+Choose an option: 5
+Enter filename: new_document.txt
+
+✅ File 'new_document.txt' created successfully!
+```
+
+#### 6. 📁 Create Directory
+```bash
+Choose an option: 6
+Enter directory name: new_project
+
+✅ Directory 'new_project' created successfully!
+```
+
+#### 7. 🗑️ Delete File/Directory
+```bash
+Choose an option: 7
+Enter file/directory name: old_file.txt
+
+✅ File 'old_file.txt' deleted successfully!
+
+# For directories with contents:
+Enter file/directory name: old_project/
+Directory is not empty. Do you want to delete it recursively? (y/n): y
+✅ Directory 'old_project/' deleted recursively!
+```
+
+#### 8. 📄 Copy File/Directory
+```bash
+Choose an option: 8
+Enter source file/directory: important_file.txt
+Enter destination: backup/important_file_copy.txt
+
+✅ File copied successfully!
+
+# For directories:
+Enter source file/directory: project_folder/
+Enter destination: backup/project_folder_backup/
+✅ Directory copied recursively!
+```
+
+#### 9. 📦 Move File/Directory
+```bash
+Choose an option: 9
+Enter source file/directory: document.txt
+Enter destination: archive/document.txt
+
+✅ File moved successfully!
+
+# Cross-filesystem move:
+Enter source file/directory: large_project/
+Enter destination: /mnt/external/large_project/
+✅ Directory moved successfully (cross-filesystem)!
+```
+
+#### 10. ✏️ Rename File/Directory
+```bash
+Choose an option: 10
+Enter current file/directory name: old_name.txt
+Enter new name: new_name.txt
+
+✅ File renamed successfully!
+```
+
+#### 11. 🔎 Search Files
+```bash
+Choose an option: 11
+Enter filename to search for: *.txt
+
+Searching for '*.txt'...
+Found: ./documents/file1.txt
+Found: ./projects/readme.txt
+Found: ./backup/notes.txt
+Search completed.
+```
+
+#### 12. 👁️ View File Permissions
+```bash
+Choose an option: 12
+Enter filename: important_file.txt
+
+File: important_file.txt
+Permissions: -rw-r--r-- (644)
+Owner: user (1000)
+Group: group (1000)
+Size: 2048 bytes
+Last modified: Nov 15 10:30:45 2023
+```
+
+#### 13. 🔧 Change Permissions (chmod)
+```bash
+Choose an option: 13
 Enter filename: script.sh
-Enter permissions (octal): 755
-# Makes the file executable (rwxr-xr-x)
+Enter new permissions (octal, e.g., 755): 755
+
+✅ Permissions changed successfully!
+New permissions: -rwxr-xr-x (755)
 ```
 
-#### 5. View File Details
+#### 14. 👤 Change Owner/Group (chown)
+```bash
+Choose an option: 14
+Enter filename: shared_file.txt
+Enter new owner: newuser
+Enter new group: newgroup
+
+✅ Owner and group changed successfully!
 ```
-Choice: 11
-Enter filename: document.txt
-# Shows permissions, owner, group, size, and modification time
+
+#### 15. 📍 Display Current Path
+```bash
+Choose an option: 15
+
+Current working directory: /home/user/projects/current_project
 ```
 
-## 🎨 Color Coding
+#### 0. ❌ Exit
+```bash
+Choose an option: 0
 
-The application uses color coding for better visual organization:
+👋 Thank you for using the File Explorer! Goodbye!
+```
 
-- **Blue (Bold)** - Directories
-- **Green** - Executable files
+## 🎨 Enhanced UI Features
+
+The application includes several UI enhancements for better user experience:
+
+### Visual Elements
+- **📍 Current Directory Display**: Always shows your current location prominently below the title
+- **🎨 Emoji Icons**: Each menu option has descriptive emojis for quick visual identification
+- **🌈 Color Coding**: 
+  - **Blue (Bold)** - Directories 📁
+  - **Green** - Executable files ⚡
+  - **White** - Regular files 📄
+  - **Red** - Error messages ❌
+  - **Green** - Success messages ✅
+
+### User Experience Features
+- **Clear Menu Organization**: Options grouped by functionality (Navigation, File Operations, Search, Permissions)
+- **Descriptive Messages**: All operations provide clear feedback with emoji indicators
+- **Recursive Operations**: Full support for directory operations with user confirmation
+- **Real-time Path Updates**: Current directory shown after navigation changes
 - **White** - Regular files
 - **Red** - Error messages
 - **Green** - Success messages
@@ -987,4 +473,3 @@ This is an educational project developed as part of a capstone assignment.
 This File Explorer application successfully implements all required features across the 5-day development timeline, providing a comprehensive file management solution for Linux systems with an intuitive console-based interface.
 
 **Happy Exploring! 🚀**
-#
