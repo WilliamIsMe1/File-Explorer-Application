@@ -29,6 +29,9 @@ class FileExplorer {
 private:
     string currentPath;
     vector<string> fileList;
+    vector<string> recentFiles;  // Track recent files
+    size_t maxRecentFiles = 10;
+    string currentTheme = "default";  // Color theme
     
     // Helper function to get file permissions string
     string getPermissionsString(mode_t mode) {
@@ -83,6 +86,41 @@ private:
         struct tm* timeinfo = localtime(&mtime);
         strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", timeinfo);
         return string(buffer);
+    }
+    
+    // Helper function to add to recent files
+    void addToRecentFiles(const string& filepath) {
+        // Check if already exists
+        auto it = find(recentFiles.begin(), recentFiles.end(), filepath);
+        if (it != recentFiles.end()) {
+            recentFiles.erase(it);
+        }
+        
+        // Add to front
+        recentFiles.insert(recentFiles.begin(), filepath);
+        
+        // Keep only max recent files
+        if (recentFiles.size() > maxRecentFiles) {
+            recentFiles.pop_back();
+        }
+    }
+    
+    // Get color codes based on theme
+    string getThemeColor(const string& colorType) {
+        if (currentTheme == "dark") {
+            if (colorType == "directory") return "\033[1;36m";  // Bright Cyan
+            if (colorType == "executable") return "\033[1;33m"; // Bright Yellow
+            if (colorType == "regular") return "\033[1;37m";    // Bright White
+        } else if (currentTheme == "light") {
+            if (colorType == "directory") return "\033[0;34m";  // Blue
+            if (colorType == "executable") return "\033[0;32m"; // Green
+            if (colorType == "regular") return "\033[0;30m";    // Dark Gray
+        } else { // default theme
+            if (colorType == "directory") return "\033[1;34m";  // Bright Blue
+            if (colorType == "executable") return "\033[0;32m"; // Green
+            if (colorType == "regular") return "\033[0;37m";    // White
+        }
+        return RESET;
     }
 
 public:
@@ -159,11 +197,11 @@ public:
                 }
                 
                 if (S_ISDIR(fileStat.st_mode)) {
-                    cout << BLUE << BOLD << filename << "/" << RESET << endl;
+                    cout << getThemeColor("directory") << filename << "/" << RESET << endl;
                 } else if (fileStat.st_mode & S_IXUSR) {
-                    cout << GREEN << filename << "*" << RESET << endl;
+                    cout << getThemeColor("executable") << filename << "*" << RESET << endl;
                 } else {
-                    cout << WHITE << filename << RESET << endl;
+                    cout << getThemeColor("regular") << filename << RESET << endl;
                 }
             }
         }
@@ -214,6 +252,7 @@ public:
         
         if (file.is_open()) {
             file.close();
+            addToRecentFiles(fullPath);
             cout << GREEN << "File created successfully: " << filename << RESET << endl;
         } else {
             cout << RED << "Error: Cannot create file!" << RESET << endl;
@@ -666,41 +705,236 @@ public:
             cout << RED << "Error: Cannot change owner/group! (May require root privileges)" << RESET << endl;
         }
     }
+    
+    // NOVELTY FEATURE: Recent Files History
+    void showRecentFiles() {
+        if (recentFiles.empty()) {
+            cout << YELLOW << "No recent files accessed yet." << RESET << endl;
+            return;
+        }
+        
+        cout << "\n" << BOLD << CYAN << "Recent Files History:" << RESET << endl;
+        cout << string(60, '=') << endl;
+        
+        for (size_t i = 0; i < recentFiles.size(); i++) {
+            cout << (i + 1) << ". " << recentFiles[i] << endl;
+        }
+        cout << string(60, '=') << endl;
+    }
+    
+    // NOVELTY FEATURE: Batch Operations (Multiple files)
+    void batchOperation(const string& operation) {
+        cout << CYAN << "Enter number of files/directories: " << RESET;
+        int count;
+        cin >> count;
+        cin.ignore();
+        
+        vector<string> items;
+        for (int i = 0; i < count; i++) {
+            string item;
+            cout << "Enter item " << (i + 1) << ": ";
+            getline(cin, item);
+            items.push_back(item);
+        }
+        
+        if (operation == "delete") {
+            cout << RED << "Are you sure you want to delete " << count << " items? (yes/no): " << RESET;
+            string confirm;
+            getline(cin, confirm);
+            
+            if (confirm == "yes") {
+                for (const auto& item : items) {
+                    deleteItem(item);
+                }
+                cout << GREEN << "Batch delete completed!" << RESET << endl;
+            }
+        } else if (operation == "copy") {
+            cout << "Enter destination directory: ";
+            string dest;
+            getline(cin, dest);
+            
+            for (const auto& item : items) {
+                string destPath = dest + "/" + item;
+                copyFile(item, destPath);
+            }
+            cout << GREEN << "Batch copy completed!" << RESET << endl;
+        } else if (operation == "move") {
+            cout << "Enter destination directory: ";
+            string dest;
+            getline(cin, dest);
+            
+            for (const auto& item : items) {
+                string destPath = dest + "/" + item;
+                moveFile(item, destPath);
+            }
+            cout << GREEN << "Batch move completed!" << RESET << endl;
+        }
+    }
+    
+    // NOVELTY FEATURE: Zip/Unzip files
+    void zipFiles(const string& source, const string& zipName) {
+        string fullSource = currentPath + "/" + source;
+        string fullZip = currentPath + "/" + zipName;
+        
+        // Create zip using system command
+        string cmd = "zip -r \"" + fullZip + "\" \"" + fullSource + "\" > /dev/null 2>&1";
+        int result = system(cmd.c_str());
+        
+        if (result == 0) {
+            cout << GREEN << "✅ Successfully created: " << zipName << RESET << endl;
+        } else {
+            cout << RED << "❌ Error: Failed to create zip file. Make sure 'zip' is installed." << RESET << endl;
+        }
+    }
+    
+    void unzipFiles(const string& zipFile, const string& destination = ".") {
+        string fullZip = currentPath + "/" + zipFile;
+        string fullDest = destination == "." ? currentPath : currentPath + "/" + destination;
+        
+        // Create destination directory if needed
+        mkdir(fullDest.c_str(), 0755);
+        
+        // Unzip using system command
+        string cmd = "unzip -o \"" + fullZip + "\" -d \"" + fullDest + "\" > /dev/null 2>&1";
+        int result = system(cmd.c_str());
+        
+        if (result == 0) {
+            cout << GREEN << "✅ Successfully extracted to: " << destination << RESET << endl;
+        } else {
+            cout << RED << "❌ Error: Failed to extract zip file. Make sure 'unzip' is installed." << RESET << endl;
+        }
+    }
+    
+    // NOVELTY FEATURE: Change Color Theme
+    void changeTheme(const string& theme) {
+        if (theme == "default" || theme == "dark" || theme == "light") {
+            currentTheme = theme;
+            cout << GREEN << "✅ Theme changed to: " << theme << RESET << endl;
+        } else {
+            cout << RED << "❌ Invalid theme! Available: default, dark, light" << RESET << endl;
+        }
+    }
+    
+    // Get current theme
+    string getCurrentTheme() const {
+        return currentTheme;
+    }
+    
+    // NOVELTY FEATURE: Help Menu
+    void showHelp() {
+        cout << "\n" << BOLD << CYAN << "╔════════════════════════════════════════════════════════════╗" << RESET << endl;
+        cout << BOLD << CYAN << "║                  FILE EXPLORER - HELP MENU                  ║" << RESET << endl;
+        cout << BOLD << CYAN << "╚════════════════════════════════════════════════════════════╝" << RESET << endl;
+        
+        cout << "\n" << BOLD << YELLOW << "📖 NAVIGATION & LISTING:" << RESET << endl;
+        cout << "  • List files (simple/detailed) - View all files in current directory" << endl;
+        cout << "  • Change directory - Navigate to any directory using absolute or relative path" << endl;
+        cout << "  • Go to parent - Move up one directory level" << endl;
+        
+        cout << "\n" << BOLD << YELLOW << "📂 FILE OPERATIONS:" << RESET << endl;
+        cout << "  • Create - Make new files or directories" << endl;
+        cout << "  • Delete - Remove files or directories (supports recursive deletion)" << endl;
+        cout << "  • Copy - Duplicate files/directories (supports recursive copying)" << endl;
+        cout << "  • Move - Relocate files/directories to different locations" << endl;
+        cout << "  • Rename - Change the name of files/directories" << endl;
+        
+        cout << "\n" << BOLD << YELLOW << "🔍 SEARCH:" << RESET << endl;
+        cout << "  • Search recursively through all subdirectories" << endl;
+        cout << "  • Case-insensitive filename matching" << endl;
+        
+        cout << "\n" << BOLD << YELLOW << "🔐 PERMISSIONS:" << RESET << endl;
+        cout << "  • View - Display detailed permission information" << endl;
+        cout << "  • chmod - Change file permissions (e.g., 755, 644)" << endl;
+        cout << "  • chown - Change file owner and group (requires root)" << endl;
+        
+        cout << "\n" << BOLD << YELLOW << "✨ NOVELTY FEATURES:" << RESET << endl;
+        cout << "  • Recent Files - View history of recently accessed files" << endl;
+        cout << "  • Batch Operations - Copy, move, or delete multiple files at once" << endl;
+        cout << "  • Zip/Unzip - Compress and extract .zip archives" << endl;
+        cout << "  • Color Themes - Choose between default, dark, or light themes" << endl;
+        
+        cout << "\n" << BOLD << YELLOW << "💡 TIPS:" << RESET << endl;
+        cout << "  • Use absolute paths (starting with /) or relative paths" << endl;
+        cout << "  • Directories are shown in blue with / at the end" << endl;
+        cout << "  • Executable files are shown in green with * at the end" << endl;
+        cout << "  • Always confirm before deleting files" << endl;
+        
+        cout << "\n" << BOLD << YELLOW << "⚠️  REQUIREMENTS:" << RESET << endl;
+        cout << "  • For zip/unzip features: Install 'zip' and 'unzip' packages" << endl;
+        cout << "  • For chown operations: Root/sudo privileges may be required" << endl;
+        
+        cout << "\n" << string(60, '=') << endl;
+    }
 };
 
 // Display menu
-void displayMenu(const string& currentPath) {
-    cout << "\n" << BOLD << CYAN << "╔════════════════════════════════════════════════════════╗" << RESET << endl;
-    cout << BOLD << CYAN << "║          FILE EXPLORER - Linux C++ Application         ║" << RESET << endl;
-    cout << BOLD << CYAN << "╚════════════════════════════════════════════════════════╝" << RESET << endl;
-    cout << BOLD << MAGENTA << "  Current Directory: " << RESET << GREEN << currentPath << RESET << endl;
+void displayMenu(const string& currentPath, const string& theme) {
+    // Define colors based on theme
+    string titleColor, headerColor, sectionColor, optionColor, pathColor, textColor;
+    
+    if (theme == "dark") {
+        titleColor = "\033[1;36m";   // Bright Cyan
+        headerColor = "\033[1;35m";  // Bright Magenta
+        sectionColor = "\033[1;33m"; // Bright Yellow
+        optionColor = "\033[1;36m";  // Bright Cyan
+        pathColor = "\033[1;32m";    // Bright Green
+        textColor = "\033[1;37m";    // Bright White
+    } else if (theme == "light") {
+        titleColor = "\033[1;34m";   // Bright Blue
+        headerColor = "\033[1;35m";  // Bright Magenta
+        sectionColor = "\033[0;33m"; // Yellow
+        optionColor = "\033[0;36m";  // Cyan
+        pathColor = "\033[0;32m";    // Green
+        textColor = "\033[0;35m";    // Magenta
+    } else { // default
+        titleColor = BOLD CYAN;
+        headerColor = BOLD MAGENTA;
+        sectionColor = BOLD YELLOW;
+        optionColor = CYAN;
+        pathColor = GREEN;
+        textColor = WHITE;
+    }
+    
+    cout << "\n" << titleColor << "╔════════════════════════════════════════════════════════╗" << RESET << endl;
+    cout << titleColor << "║          FILE EXPLORER - Linux C++ Application         ║" << RESET << endl;
+    cout << titleColor << "╚════════════════════════════════════════════════════════╝" << RESET << endl;
+    cout << headerColor << "  Current Directory: " << RESET << pathColor << currentPath << RESET << endl;
     cout << string(58, '=') << endl;
     
-    cout << "\n" << BOLD << YELLOW << "📂 Navigation & Listing:" << RESET << endl;
-    cout << "  " << CYAN << "1." << RESET << "  📋 List files (simple)" << endl;
-    cout << "  " << CYAN << "2." << RESET << "  📊 List files (detailed)" << endl;
-    cout << "  " << CYAN << "3." << RESET << "  🔄 Change directory" << endl;
-    cout << "  " << CYAN << "4." << RESET << "  ⬆️  Go to parent directory" << endl;
+    cout << "\n" << sectionColor << "📂 Navigation & Listing:" << RESET << endl;
+    cout << "  " << optionColor << "1." << RESET << "  " << textColor << "📋 List files (simple)" << RESET << endl;
+    cout << "  " << optionColor << "2." << RESET << "  " << textColor << "📊 List files (detailed)" << RESET << endl;
+    cout << "  " << optionColor << "3." << RESET << "  " << textColor << "🔄 Change directory" << RESET << endl;
+    cout << "  " << optionColor << "4." << RESET << "  " << textColor << "⬆️  Go to parent directory" << RESET << endl;
     
-    cout << "\n" << BOLD << YELLOW << "📁 File Operations:" << RESET << endl;
-    cout << "  " << CYAN << "5." << RESET << "  ➕ Create file" << endl;
-    cout << "  " << CYAN << "6." << RESET << "  📁 Create directory" << endl;
-    cout << "  " << CYAN << "7." << RESET << "  🗑️  Delete file/directory" << endl;
-    cout << "  " << CYAN << "8." << RESET << "  📄 Copy file/directory" << endl;
-    cout << "  " << CYAN << "9." << RESET << "  📦 Move file/directory" << endl;
-    cout << "  " << CYAN << "10." << RESET << " ✏️  Rename file/directory" << endl;
+    cout << "\n" << sectionColor << "📁 File Operations:" << RESET << endl;
+    cout << "  " << optionColor << "5." << RESET << "  " << textColor << "➕ Create file" << RESET << endl;
+    cout << "  " << optionColor << "6." << RESET << "  " << textColor << "📁 Create directory" << RESET << endl;
+    cout << "  " << optionColor << "7." << RESET << "  " << textColor << "🗑️  Delete file/directory" << RESET << endl;
+    cout << "  " << optionColor << "8." << RESET << "  " << textColor << "📄 Copy file/directory" << RESET << endl;
+    cout << "  " << optionColor << "9." << RESET << "  " << textColor << "📦 Move file/directory" << RESET << endl;
+    cout << "  " << optionColor << "10." << RESET << " " << textColor << "✏️  Rename file/directory" << RESET << endl;
     
-    cout << "\n" << BOLD << YELLOW << "🔍 Search:" << RESET << endl;
-    cout << "  " << CYAN << "11." << RESET << " 🔎 Search files" << endl;
+    cout << "\n" << sectionColor << "🔍 Search:" << RESET << endl;
+    cout << "  " << optionColor << "11." << RESET << " " << textColor << "🔎 Search files" << RESET << endl;
     
-    cout << "\n" << BOLD << YELLOW << "🔐 Permissions Management:" << RESET << endl;
-    cout << "  " << CYAN << "12." << RESET << " 👁️  View file permissions" << endl;
-    cout << "  " << CYAN << "13." << RESET << " 🔧 Change permissions (chmod)" << endl;
-    cout << "  " << CYAN << "14." << RESET << " 👤 Change owner/group (chown)" << endl;
+    cout << "\n" << sectionColor << "🔐 Permissions Management:" << RESET << endl;
+    cout << "  " << optionColor << "12." << RESET << " " << textColor << "👁️  View file permissions" << RESET << endl;
+    cout << "  " << optionColor << "13." << RESET << " " << textColor << "🔧 Change permissions (chmod)" << RESET << endl;
+    cout << "  " << optionColor << "14." << RESET << " " << textColor << "👤 Change owner/group (chown)" << RESET << endl;
     
-    cout << "\n" << BOLD << YELLOW << "⚙️  Other:" << RESET << endl;
-    cout << "  " << CYAN << "15." << RESET << " 📍 Display current path" << endl;
-    cout << "  " << RED << "0." << RESET << "  ❌ Exit" << endl;
+    cout << "\n" << sectionColor << "⚙️  Other:" << RESET << endl;
+    cout << "  " << optionColor << "15." << RESET << " " << textColor << "📍 Display current path" << RESET << endl;
+    
+    cout << "\n" << sectionColor << "✨ Novelty Features:" << RESET << endl;
+    cout << "  " << optionColor << "16." << RESET << " " << textColor << "📜 Recent files history" << RESET << endl;
+    cout << "  " << optionColor << "17." << RESET << " " << textColor << "📦 Batch operations (multiple files)" << RESET << endl;
+    cout << "  " << optionColor << "18." << RESET << " " << textColor << "🗜️  Zip files/folders" << RESET << endl;
+    cout << "  " << optionColor << "19." << RESET << " " << textColor << "📂 Unzip files" << RESET << endl;
+    cout << "  " << optionColor << "20." << RESET << " " << textColor << "🎨 Change color theme" << RESET << endl;
+    cout << "  " << optionColor << "21." << RESET << " " << textColor << "❓ Help/Documentation" << RESET << endl;
+    
+    cout << "\n  " << RED << "0." << RESET << "  " << RED << "❌ Exit" << RESET << endl;
     
     cout << "\n" << string(58, '-') << endl;
 }
@@ -720,7 +954,7 @@ int main() {
     cout << string(60, '=') << endl;
     
     while (true) {
-        displayMenu(explorer.getCurrentPath());
+        displayMenu(explorer.getCurrentPath(), explorer.getCurrentTheme());
         cout << BOLD << YELLOW << "➤ Enter your choice: " << RESET;
         cin >> choice;
         cin.ignore(); // Clear newline from buffer
@@ -827,6 +1061,61 @@ int main() {
             case 15:
                 cout << CYAN << "Current path: " << explorer.getCurrentPath() << RESET << endl;
                 break;
+            
+            case 16:
+                explorer.showRecentFiles();
+                break;
+            
+            case 17:
+                cout << "Batch operation type:\n";
+                cout << "  1. Delete multiple files\n";
+                cout << "  2. Copy multiple files\n";
+                cout << "  3. Move multiple files\n";
+                cout << "Enter choice: ";
+                int batchChoice;
+                cin >> batchChoice;
+                cin.ignore();
+                
+                if (batchChoice == 1) {
+                    explorer.batchOperation("delete");
+                } else if (batchChoice == 2) {
+                    explorer.batchOperation("copy");
+                } else if (batchChoice == 3) {
+                    explorer.batchOperation("move");
+                } else {
+                    cout << RED << "Invalid choice!" << RESET << endl;
+                }
+                break;
+            
+            case 18:
+                cout << "Enter source file/folder to zip: ";
+                getline(cin, input1);
+                cout << "Enter zip filename (e.g., archive.zip): ";
+                getline(cin, input2);
+                explorer.zipFiles(input1, input2);
+                break;
+            
+            case 19:
+                cout << "Enter zip file to extract: ";
+                getline(cin, input1);
+                cout << "Enter destination folder (or '.' for current): ";
+                getline(cin, input2);
+                explorer.unzipFiles(input1, input2);
+                break;
+            
+            case 20:
+                cout << "Available themes:\n";
+                cout << "  1. default (Blue/Green/White)\n";
+                cout << "  2. dark (Cyan/Yellow/White)\n";
+                cout << "  3. light (Blue/Green/Black)\n";
+                cout << "Enter theme name: ";
+                getline(cin, input1);
+                explorer.changeTheme(input1);
+                break;
+            
+            case 21:
+                explorer.showHelp();
+                break;
                 
             case 0:
                 cout << "\n" << string(60, '=') << endl;
@@ -836,7 +1125,7 @@ int main() {
                 return 0;
                 
             default:
-                cout << RED << "❌ Invalid choice! Please select a valid option (0-15)." << RESET << endl;
+                cout << RED << "❌ Invalid choice! Please select a valid option (0-21)." << RESET << endl;
         }
         
         cout << "\n" << BOLD << CYAN << "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" << RESET << endl;
