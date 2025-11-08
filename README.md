@@ -374,7 +374,7 @@ Enter theme name: dark
 Choose an option: 21
 
 ╔════════════════════════════════════════════════════════════╗
-║                  FILE EXPLORER - HELP MENU                  ║
+║                  FILE EXPLORER - HELP MENU                 ║
 ╚════════════════════════════════════════════════════════════╝
 
 📖 NAVIGATION & LISTING:
