@@ -822,9 +822,10 @@ public:
     
     // NOVELTY FEATURE: Help Menu
     void showHelp() {
-        cout << "\n" << BOLD << CYAN << "╔════════════════════════════════════════════════════════════╗" << RESET << endl;
+        cout << "\n"
+             << BOLD << CYAN << "╔═════════════════════════════════════════════════════════════╗" << RESET << endl;
         cout << BOLD << CYAN << "║                  FILE EXPLORER - HELP MENU                  ║" << RESET << endl;
-        cout << BOLD << CYAN << "╚════════════════════════════════════════════════════════════╝" << RESET << endl;
+        cout << BOLD << CYAN << "╚═════════════════════════════════════════════════════════════╝" << RESET << endl;
         
         cout << "\n" << BOLD << YELLOW << "📖 NAVIGATION & LISTING:" << RESET << endl;
         cout << "  • List files (simple/detailed) - View all files in current directory" << endl;
@@ -859,7 +860,7 @@ public:
         cout << "  • Executable files are shown in green with * at the end" << endl;
         cout << "  • Always confirm before deleting files" << endl;
         
-        cout << "\n" << BOLD << YELLOW << "⚠️  REQUIREMENTS:" << RESET << endl;
+        cout << "\n" << BOLD << YELLOW << "⚠️ REQUIREMENTS:" << RESET << endl;
         cout << "  • For zip/unzip features: Install 'zip' and 'unzip' packages" << endl;
         cout << "  • For chown operations: Root/sudo privileges may be required" << endl;
         
@@ -882,10 +883,10 @@ void displayMenu(const string& currentPath, const string& theme) {
     } else if (theme == "light") {
         titleColor = "\033[1;34m";   // Bright Blue
         headerColor = "\033[1;35m";  // Bright Magenta
-        sectionColor = "\033[0;33m"; // Yellow
-        optionColor = "\033[0;36m";  // Cyan
-        pathColor = "\033[0;32m";    // Green
-        textColor = "\033[0;35m";    // Magenta
+        sectionColor = YELLOW;       // Yellow
+        optionColor = CYAN;          // Cyan
+        pathColor = GREEN;           // Green
+        textColor = MAGENTA;         // Magenta
     } else { // default
         titleColor = BOLD CYAN;
         headerColor = BOLD MAGENTA;
